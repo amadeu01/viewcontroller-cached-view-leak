@@ -24,7 +24,7 @@ final class TabBarController: UITabBarController {
     override func loadView() {
         super.loadView()
         view.backgroundColor = .white
-        vc.randomLabel.text = "from tabbar with random: \(vc.random)"
+        vc.randomLabel.text = "from tabbar with my random number is \(vc.random)"
         nav.viewControllers = [vc]
         viewControllers = [nav]
     }
@@ -43,7 +43,7 @@ final class ViewController2: UIViewController {
 
     public init() {
         super.init(nibName: nil, bundle: nil)
-        print("init ViewController2 called, random: \(random)")
+        print("init ViewController2 called, random: \(random)\n")
     }
 
     let button: UIButton = {
@@ -53,8 +53,8 @@ final class ViewController2: UIViewController {
         return button
     }()
 
-    let label = UILabel(frame: CGRect(x: 100, y: 300, width: 300, height: 100))
-    let randomLabel = UILabel(frame: CGRect(x: 100, y: 450, width: 300, height: 100))
+    let label = UILabel(frame: CGRect(x: 30, y: 200, width: 300, height: 100))
+    let randomLabel = UILabel(frame: CGRect(x: 30, y: 250, width: 300, height: 100))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,15 +64,20 @@ final class ViewController2: UIViewController {
         view.addSubview(button)
         view.addSubview(label)
         view.addSubview(randomLabel)
-
+        label.numberOfLines = 0
+        randomLabel.numberOfLines = 0
         label.text = "ViewController2 with number: \(random)"
     }
 
     @objc func buttonTapped() {
-        print("buttonTapped ViewController2")
+        print("buttonTapped ViewController2\n")
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let vc = ViewController()
-            vc.label.text = "number: \(appDelegate.number)"
+            let label = UILabel(frame: CGRect(x: 50, y: 230, width: 300, height: 100))
+            vc.label.text = "my real ramdom number is \(vc.random)"
+            label.text = "You should be seing my -> real ramdom number is \(vc.random)"
+            label.numberOfLines = 0
+            vc.view.addSubview(label)
             appDelegate.navigation.pushViewController(vc, animated: true)
             appDelegate.window?.rootViewController = appDelegate.navigation
             appDelegate.number += 1

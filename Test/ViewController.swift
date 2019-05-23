@@ -32,9 +32,9 @@ class ViewController: UIViewController {
         return button
     }()
 
-    let label = UILabel(frame: CGRect(x: 100, y: 300, width: 300, height: 100))
+    let label = UILabel(frame: CGRect(x: 30, y: 200, width: 300, height: 100))
 
-    let randomLabel = UILabel(frame: CGRect(x: 100, y: 450, width: 300, height: 100))
+    let randomLabel = UILabel(frame: CGRect(x: 30, y: 250, width: 300, height: 100))
 
     override func loadView() {
         view = RootView()
@@ -43,12 +43,16 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ViewController1 my viewDidLoad was called")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        view.backgroundColor = .white
 
         view.addSubview(button)
         view.addSubview(label)
         view.addSubview(randomLabel)
+        label.numberOfLines = 0
+        randomLabel.numberOfLines = 0
+        randomLabel.text = "My random number is \(random)"
+        print("\n* I expect that the rootView.random number to be: \((view as! RootView).random) *\n")
     }
 
     @objc func buttonTapped() {
@@ -63,6 +67,8 @@ class ViewController: UIViewController {
 
 final class RootView: UIView {
     let random = Int.random(in: 1...10000)
+    var addedRandomLabel = false
+    let randomLabel = UILabel(frame: CGRect(x: 30, y: 300, width: 300, height: 100))
 
     let colors: [UIColor] = [.gray, .green, .gray, .red, .orange, .brown]
 
@@ -76,6 +82,12 @@ final class RootView: UIView {
 
     override func willMove(toWindow newWindow: UIWindow?) {
         self.backgroundColor = colors.randomElement()
+
+        if (!addedRandomLabel) {
+            addSubview(randomLabel)
+            addedRandomLabel = true
+        }
+        randomLabel.text = "RootView number is \(random)"
     }
 }
 
